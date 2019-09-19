@@ -16,7 +16,6 @@ In order to run this utility you need to have two items set up:
 - Install:
 ``` 
 sudo apt install ./sshec2-<release>.deb
-sudo dpkg -i ./sshec2-<release>.deb
 ```
 
 ### Usage
