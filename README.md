@@ -1,6 +1,6 @@
 # sshec2
 
-Small utility that lists out all ec2 instances running in aws, allowing you to select an instance and SSH into it.
+Small command line utility that lists out all ec2 instances running in aws, allowing you to select an instance and SSH into it.
 
 ## Getting Started / Prerequisites
 
