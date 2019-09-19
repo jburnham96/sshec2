@@ -11,12 +11,16 @@ In order to run this utility you need to have two items set up:
 
 ### Installing  
 
+#### Ubuntu:
 - Download the latest .deb [release](https://github.com/jburnham96/sshec2/releases)
 - Install:
 ``` 
 sudo apt install ./sshec2-<release>.deb
 sudo dpkg -i ./sshec2-<release>.deb
 ```
+
+### Usage
+Type sshec2, by default all ec2 instances will be listed. Find the instance you want to connect to and type in the number. SSH will begin, automatically accepting the certificate.
 
 ## Built With
 
