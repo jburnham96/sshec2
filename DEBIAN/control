@@ -1,0 +1,8 @@
+Package: sshec2
+Version: 1.0.0
+Maintainer: James Burnham <jtrburnham@gmail.com>
+Description: Small utility to connect to ec2 servers
+Homepage: https://github.com/username/projectname
+Architecture: all
+Depends: awscli, jq
+
