@@ -1,6 +1,6 @@
 # sshec2
 
-Small utility that lists out all ec2 instances running in aws, allowing you to select an instance and SSH into it.
+Small command line utility that lists out all ec2 instances running in aws, allowing you to select an instance and SSH into it.
 
 ## Getting Started / Prerequisites
 
@@ -11,12 +11,15 @@ In order to run this utility you need to have two items set up:
 
 ### Installing  
 
+#### Ubuntu:
 - Download the latest .deb [release](https://github.com/jburnham96/sshec2/releases)
 - Install:
 ``` 
 sudo apt install ./sshec2-<release>.deb
-sudo dpkg -i ./sshec2-<release>.deb
 ```
+
+### Usage
+Type sshec2, by default all ec2 instances will be listed. Find the instance you want to connect to and type in the number. SSH will begin, automatically accepting the certificate.
 
 ## Built With
 
