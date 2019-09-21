@@ -1,5 +1,5 @@
 Package: sshec2
-Version: 1.0.1  
+Version: 1.0.2
 Maintainer: James Burnham <jtrburnham@gmail.com>
 Description: Small utility to connect to ec2 servers
 Homepage: https://github.com/jburnham96/sshec2
