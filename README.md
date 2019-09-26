@@ -19,7 +19,7 @@ sudo apt install ./sshec2-<release>.deb
 If this is the first time you're using the AWS CLI you'll need to run through the configuration. With your public & private access key,  default region and default export type. Run the configuration with:
 ```aws configure```
 #### Windows:
-[Install the linux subsytem for windows] (https://docs.microsoft.com/en-us/windows/wsl/install-win10)  and run the steps above as normal.
+[Install the linux subsytem for windows](https://docs.microsoft.com/en-us/windows/wsl/install-win10)  and run the steps above as normal.
 ### Usage
 Type sshec2, by default all ec2 instances will be listed. Find the instance you want to connect to and type in the number. SSH will begin, automatically accepting the certificate.
 ## Configuration
