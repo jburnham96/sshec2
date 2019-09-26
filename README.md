@@ -21,7 +21,9 @@ If this is the first time you're using the AWS CLI you'll need to run through th
 #### Windows:
 [Install the linux subsytem for windows](https://docs.microsoft.com/en-us/windows/wsl/install-win10)  and run the steps above as normal.
 ### Usage
-Type sshec2, by default all ec2 instances will be listed. Find the instance you want to connect to and type in the number. SSH will begin, automatically accepting the certificate.
+Run the application by typing:
+``` sshec2```
+By default all ec2 instances will be listed. Find the instance you want to connect to and type in the number. SSH will begin, automatically accepting the certificate.
 ## Configuration
 There is a sshec2.config located at ```/etc/sshec2.conf``` which you can specify which clusters you would like to include. Adding to this will exclude any clusters that aren't included. If you leave this blank then all EC2 instances will be displayed.
 ## Built With
