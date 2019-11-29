@@ -10,7 +10,7 @@ In order to run this utility you need to have two items set up:
 #### Ubuntu:
 - [Download](https://github.com/jburnham96/sshec2/releases) the latest .deb release
 ```
-wget https://github.com/jburnham96/sshec2/releases/download/1.0.2/sshec2<version>.deb
+wget https://github.com/jburnham96/sshec2/releases/download/<VERSION>/sshec2<VERSION>.deb
 ```
 - Install:
 ``` 
