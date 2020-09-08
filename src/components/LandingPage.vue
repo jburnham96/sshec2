@@ -12,14 +12,14 @@
           }}</a>
         </div>
       </div>
-      <div class="tab-container">
-        <div v-if="!terminalView" class="tab-content">
+      <div v-for="tab in tabs" :key="tab.id + 'tabcontent'" v-show="tab.active" class="tab-container">
+        <div v-if="tab.type === 'search'" class="tab-content">
           <search v-on:list-item-clicked="itemClicked" />
         </div>
-        <div v-if="terminalView">
+        <div v-if="tab.type === 'terminal'">
           <terminal
             v-on:terminal-end="terminalEnded()"
-            :startCommand="`ssh ${curIPAddress}`"
+            :startCommand="`ssh ${tab.ipAddress}`"
           />
         </div>
       </div>
@@ -30,15 +30,14 @@
 <script>
 import search from "./Search.vue";
 import terminal from "./Terminal.vue";
+const { v4: uuidv4 } = require('uuid');
 
 export default {
   name: "landing-page",
   data: () => ({
-    terminalView: false,
-    curIPAddress: "",
     tabs: [
-      { id: -1, name: "Search", active: true },
-      { id: 1, name: "Terminal session" },
+      { id: uuidv4(), name: "Search", type: 'search', active: true },
+      // { id: 1, name: "Terminal session", type: 'terminal', ipAddress: '' },
     ],
   }),
   components: {
@@ -47,12 +46,28 @@ export default {
   },
   methods: {
     itemClicked(ipAddress) {
-      this.curIPAddress = ipAddress;
-      this.terminalView = true;
+      this.disableAllTabs();
+  
+      this.tabs.push({
+        id: uuidv4(),
+        name: ipAddress,
+        type: 'terminal',
+        ipAddress,
+        active: true,
+      })
     },
     terminalEnded() {
       this.terminalView = false;
     },
+    selectTab(tab) {
+      this.disableAllTabs();
+      tab.active = true;
+    },
+    disableAllTabs() {
+      this.tabs.forEach((tab, index, arr) => {
+        arr[index].active = false;
+      });
+    }
   },
 };
 </script>
@@ -127,6 +142,4 @@ body {
 .tab-text {
   font-size: 18px;
 }
-
-
 </style>

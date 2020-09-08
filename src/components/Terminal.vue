@@ -1,20 +1,18 @@
 <template>
   <div class="xterm-container">
-    <button v-on:click="exitClick()">Exit</button>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.css" integrity="sha512-iLYuqv+v/P4u9erpk+KM83Ioe/l7SEmr7wB6g+Kg1qmEit8EShDKnKtLHlv2QXUp7GGJhmqDI+1PhJYLTsfb8w==" crossorigin="anonymous" />
-    <div id="xterm"></div>
+    <div :id="terminalId"></div>
   </div>
 </template>
 <script>
 import { FitAddon } from 'xterm-addon-fit';
+const { v4: uuidv4 } = require('uuid');
 
 export default {
+  data: () => ({
+    terminalId: uuidv4(),
+  }),
   props: ['startCommand'],
-  methods: {
-    exitClick() {
-      this.$emit('terminal-end');
-    },
-  },
   mounted() {
     const electron = require('electron');
 
@@ -25,7 +23,6 @@ export default {
     // Initialize node-pty with an appropriate shell
     const shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
     const ptyProcess = pty.spawn(shell, [], {
-      name: 'xterm-color',
       cols: 120,
       rows: 500,
       cwd: process.cwd(),
@@ -36,7 +33,7 @@ export default {
     const fitAddon = new FitAddon();
 
     xterm.loadAddon(fitAddon);
-    xterm.open(document.getElementById('xterm'));
+    xterm.open(document.getElementById(this.terminalId));
 
     fitAddon.fit();
 
@@ -46,7 +43,7 @@ export default {
 
     // Setup communication between xterm.js and node-pty
     xterm.onData(data => ptyProcess.write(data));
-    xterm.setOption('theme', { background: '#363535' });
+    xterm.setOption('theme', { background: '#232323' });
 
     ptyProcess.on('data', (data) => {
       xterm.write(data);
