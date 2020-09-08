@@ -106,7 +106,6 @@ export default {
   position: fixed;
   height: 32px;
   width: calc(100% - 2px); /*Compensate for body 1px border*/
-  background: #222222;
   color: #FFF;
   padding: 4px;
 }
