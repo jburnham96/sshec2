@@ -53,7 +53,7 @@ export default {
   position: relative;
   top: 50px;
   left: 190px;  
-  z-index: 1;
+  z-index: 11;
   -webkit-user-select: none;
   user-select: none;
   min-width: 150px;

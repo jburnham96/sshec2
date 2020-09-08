@@ -1,7 +1,7 @@
 <template>
   <div class="xterm-container">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.css" integrity="sha512-iLYuqv+v/P4u9erpk+KM83Ioe/l7SEmr7wB6g+Kg1qmEit8EShDKnKtLHlv2QXUp7GGJhmqDI+1PhJYLTsfb8w==" crossorigin="anonymous" />
-    <div :id="terminalId"></div>
+    <div :id="terminalId" class="xterm-terminal"></div>
   </div>
 </template>
 <script>
@@ -80,9 +80,10 @@ export default {
 
 .xterm-container {
   width: 90vw;
+  height: 80vh;
 }
 
-#xterm {
+.xterm-terminal {
   height: 80vh;
 }
 </style>

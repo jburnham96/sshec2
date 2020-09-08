@@ -26,7 +26,7 @@
         <div v-if="tab.type === 'terminal'">
           <terminal
             v-on:terminal-end="terminalEnded()"
-            :startCommand="`ssh ${tab.ipAddress}`"
+            :startCommand="`ssh -i ${defaultFsKeyLocation} ${defaultUsername}@${tab.ipAddress}`"
           />
         </div>
       </div>
@@ -35,9 +35,10 @@
 </template>
 
 <script>
+const { v4: uuidv4 } = require("uuid");
 import search from "./Search.vue";
 import terminal from "./Terminal.vue";
-const { v4: uuidv4 } = require("uuid");
+import { mapGetters } from 'vuex';
 
 export default {
   name: "landing-page",
@@ -48,13 +49,19 @@ export default {
     search,
     terminal,
   },
+  computed: {
+    ...mapGetters([
+      'defaultFsKeyLocation',
+      'defaultUsername'
+    ]),
+  },
   methods: {
     itemClicked(selectedItem) {
       this.disableAllTabs();
 
       this.tabs.push({
         id: uuidv4(),
-        name: 'jhfajics_eaotkamtionakdireser',
+        name: selectedItem.name,
         type: "terminal",
         ipAddress: selectedItem.ipAddress,
         active: true,

@@ -2,7 +2,7 @@ import Vue from "vue"
 import Vuex from "vuex"
 import { createPersistedState } from "vuex-electron"
 
-import region from './modules/region';
+import region from './modules/app';
 
 Vue.use(Vuex)
 
