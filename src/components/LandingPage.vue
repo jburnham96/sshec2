@@ -129,6 +129,7 @@ body {
   display: flex;
   flex-direction: row;
   padding-bottom: 8px;
+  white-space: nowrap;
 }
 
 .tabs-list::-webkit-scrollbar-track
