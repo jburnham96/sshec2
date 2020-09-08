@@ -39,7 +39,7 @@ export default {
 
       /*temp*/
       overflow: auto;
-      max-height: 86px;
+      max-height: 230px;
   }
 
   .list-container::-webkit-scrollbar-track
