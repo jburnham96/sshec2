@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/require-v-for-key -->
 <template>
     <div class="list-container">
       <div v-for="item of items" :key="item.id">
@@ -37,7 +36,6 @@ export default {
       position: absolute;
       width: 100%;
 
-      /*temp*/
       overflow: auto;
       max-height: 230px;
   }

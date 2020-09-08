@@ -6,13 +6,20 @@
           v-for="tab in tabs"
           :key="tab.id"
           :class="`tab ${tab.active ? 'is-active' : ''}`"
+          @click="selectTab(tab)"
         >
-          <a :href="tab.href" class="tab-text" @click="selectTab(tab)">{{
+          <font-awesome-icon v-if="tab.type === 'terminal'" class="icon" icon="terminal" />
+          <a :href="tab.href" class="tab-text">{{
             tab.name
           }}</a>
         </div>
       </div>
-      <div v-for="tab in tabs" :key="tab.id + 'tabcontent'" v-show="tab.active" class="tab-container">
+      <div
+        v-for="tab in tabs"
+        :key="tab.id + 'tabcontent'"
+        v-show="tab.active"
+        class="tab-container"
+      >
         <div v-if="tab.type === 'search'" class="tab-content">
           <search v-on:list-item-clicked="itemClicked" />
         </div>
@@ -30,15 +37,12 @@
 <script>
 import search from "./Search.vue";
 import terminal from "./Terminal.vue";
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 
 export default {
   name: "landing-page",
   data: () => ({
-    tabs: [
-      { id: uuidv4(), name: "Search", type: 'search', active: true },
-      // { id: 1, name: "Terminal session", type: 'terminal', ipAddress: '' },
-    ],
+    tabs: [{ id: uuidv4(), name: "Search", type: "search", active: true }],
   }),
   components: {
     search,
@@ -47,14 +51,14 @@ export default {
   methods: {
     itemClicked(selectedItem) {
       this.disableAllTabs();
-  
+
       this.tabs.push({
         id: uuidv4(),
-        name: selectedItem.name,
-        type: 'terminal',
+        name: 'jhfajics_eaotkamtionakdireser',
+        type: "terminal",
         ipAddress: selectedItem.ipAddress,
         active: true,
-      })
+      });
     },
     terminalEnded() {
       this.terminalView = false;
@@ -67,7 +71,7 @@ export default {
       this.tabs.forEach((tab, index, arr) => {
         arr[index].active = false;
       });
-    }
+    },
   },
 };
 </script>
@@ -113,14 +117,37 @@ body {
   margin-top: 49px;
   align-self: flex-start;
   margin-left: 130px;
-
+  max-width: 83%;
+  overflow-x: auto;
   display: flex;
   flex-direction: row;
+  padding-bottom: 8px;
+}
+
+.tabs-list::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: #232323;
+}
+
+.tabs-list::-webkit-scrollbar
+{
+    width: 7px;
+    height: 3px;
+    background-color: #232323;
+}
+
+.tabs-list::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: rgb(17, 17, 17)
 }
 
 .tab {
   color: rgb(77, 77, 77);
-  margin-left: 10px;
+  margin-left: 25px;
 }
 
 .tab:hover {
@@ -141,5 +168,10 @@ body {
 
 .tab-text {
   font-size: 18px;
+}
+
+.icon {
+  margin-right: 4px;
+  font-size: 14px;
 }
 </style>

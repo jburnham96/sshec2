@@ -13,6 +13,9 @@
   },
   "main": "background.js",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@fortawesome/vue-fontawesome": "^2.0.0",
     "aws-sdk": "^2.746.0",
     "core-js": "^3.6.5",
     "node-pty": "^0.9.0",
