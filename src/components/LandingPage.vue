@@ -6,7 +6,7 @@
           <search v-on:list-item-clicked="itemClicked"/>
         </div>
         <div v-if="terminalView">
-          <!--<terminal v-on:terminal-end="terminalEnded()" :startCommand="`ssh ${curIPAddress}`" />-->
+          <terminal v-on:terminal-end="terminalEnded()" :startCommand="`ssh ${curIPAddress}`" />
         </div>
     </div>
   </div>
@@ -16,7 +16,7 @@
 
 <script>
   import search from './Search.vue';
-  // import terminal from './Terminal.vue';
+  import terminal from './Terminal.vue';
 
   export default {
     name: 'landing-page',
@@ -26,7 +26,7 @@
     }),
     components: {
       search,
-      // terminal,
+      terminal,
     },
     methods: {
       itemClicked(ipAddress) {

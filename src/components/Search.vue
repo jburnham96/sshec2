@@ -56,12 +56,13 @@ export default {
   methods: {
     async populateAllResources() {
       this.loading = true;
+      console.log('getting resources for ' + this.selectedRegion)
       // get region from the store in a drop down
       const aws = new AwsHelper(this.selectedRegion);
 
       this.allResources = await aws.getAllResources();
-      this.allResources.push({ type: 'Meeseeks', name: 'I\'m a [bit] \\ of %$*("£"£ a stickler resource see' });
 
+      console.log('All resources are: ' + JSON.stringify(this.allResources));
       this.loading = false;
     },
     filterResources(searchText) {

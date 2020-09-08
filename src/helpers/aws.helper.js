@@ -1,12 +1,14 @@
 /* eslint-disable no-await-in-loop */
-const AWS = require('aws-sdk');
+// const AWS = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
-
+const electron = require('electron');
+const AWS = electron.remote.require('aws-sdk');
 
 export default class AwsHelper {
-  constructor() {
+  constructor(region) {
     this.instances = [];
-    AWS.config.update({ region: 'eu-west-2' });
+    AWS.config.httpOptions.timeout = 5000;
+    AWS.config.update({ region });
   }
 
   static async getRegions() {
@@ -35,7 +37,7 @@ export default class AwsHelper {
         console.log(err);
       });
 
-    if (lightsailInstances) {
+      if (lightsailInstances) {
       lightsailInstances.instances.forEach((instance) => {
         this.instances.push({
           id: uuidv4(),
