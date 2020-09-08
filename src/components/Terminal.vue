@@ -7,6 +7,7 @@
 </template>
 <script>
 import { FitAddon } from 'xterm-addon-fit';
+
 export default {
   props: ['startCommand'],
   methods: {
@@ -17,7 +18,7 @@ export default {
   mounted() {
     const electron = require('electron');
 
-    const os = require('os');
+    const os = electron.remote.require('os');
     const pty = electron.remote.require('node-pty');
     const { Terminal } = require('xterm');
 
@@ -28,7 +29,6 @@ export default {
       cols: 120,
       rows: 500,
       cwd: process.cwd(),
-      env: process.env,
     });
 
     // Initialize xterm.js and attach it to the DOM
