@@ -2,7 +2,7 @@
   <div class="titlebar">
     <div class="drag-region">
       <div id="window-controls">
-        <div class="button" id="min-button">
+        <div class="button" id="min-button" v-on:click="win.minimize()">
           <img
             class="icon"
             srcset="
@@ -20,7 +20,7 @@
           />
         </div>
 
-        <div class="button" id="max-button">
+        <div class="button" id="max-button" v-on:click="win.maximize(); toggleMaxRestoreButtons();">
           <img
             class="icon"
             srcset="
@@ -38,7 +38,7 @@
           />
         </div>
 
-        <div class="button" id="restore-button">
+        <div class="button" id="restore-button" v-on:click="win.unmaximize(); toggleMaxRestoreButtons();">
           <img
             class="icon"
             srcset="
@@ -56,7 +56,7 @@
           />
         </div>
 
-        <div class="button" id="close-button">
+        <div class="button" id="close-button" v-on:click="win.destroy()">
           <img
             class="icon"
             srcset="
@@ -79,7 +79,25 @@
 </template>
 
 <script>
-export default {};
+const remote = require('electron').remote;
+
+export default {
+  data: () => ({
+    win: {},
+  }),
+  mounted() {
+    this.win = remote.getCurrentWindow();
+  },
+  methods: {
+    toggleMaxRestoreButtons() {
+        if (this.win.isMaximized()) {
+            document.body.classList.add('maximized');
+        } else {
+            document.body.classList.remove('maximized');
+        }
+    },
+  }
+};
 </script>
 
 <style scoped>
@@ -88,8 +106,7 @@ export default {};
   position: fixed;
   height: 32px;
   width: calc(100% - 2px); /*Compensate for body 1px border*/
-  background: #303030;
-  /*background: #222222;*/
+  background: #222222;
   color: #FFF;
   padding: 4px;
 }
@@ -98,7 +115,9 @@ export default {};
   width: 100%;
   height: 100%;
   -webkit-app-region: drag;
+   -webkit-user-select: none;
 }
+
 #window-controls {
   display: grid;
   grid-template-columns: repeat(3, 46px);
@@ -116,13 +135,74 @@ export default {};
   width: 100%;
   height: 100%;
 }
+
 #min-button {
   grid-column: 1;
 }
+
 #max-button, #restore-button {
   grid-column: 2;
 }
+
 #close-button {
   grid-column: 3;
+}
+
+@media (-webkit-device-pixel-ratio: 1.5), (device-pixel-ratio: 1.5),
+(-webkit-device-pixel-ratio: 2), (device-pixel-ratio: 2),
+(-webkit-device-pixel-ratio: 3), (device-pixel-ratio: 3) {
+  #window-controls .icon {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+#window-controls {
+  -webkit-app-region: no-drag;
+}
+
+#window-controls .button {
+  user-select: none;
+}
+
+#window-controls .button:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+#window-controls .button:active {
+  background: rgba(255,255,255,0.2);
+}
+
+#close-button:hover {
+  background: #E81123 !important;
+}
+
+#close-button:active {
+  background: #F1707A !important;
+}
+
+#close-button:active .icon {
+  filter: invert(1);
+}
+
+#restore-button {
+  display: none !important;
+}
+
+.maximized #titlebar {
+  width: 100%;
+  padding: 0;
+}
+
+.maximized #window-title {
+  margin-left: 12px;
+}
+
+.maximized #restore-button {
+  display: flex !important;
+}
+
+.maximized #max-button {
+  display: none;
 }
 </style>
