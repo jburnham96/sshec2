@@ -23,8 +23,8 @@ export default {
   },
   props: ['items', 'search'],
   methods: {
-    itemClicked(ipAddress) {
-      this.$emit('list-item-clicked', ipAddress);
+    itemClicked(selectedItem) {
+      this.$emit('list-item-clicked', selectedItem);
     },
   },
 };

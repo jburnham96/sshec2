@@ -23,7 +23,7 @@
           return searchText.toString().replace(check, matchedText => (`<strong>${matchedText}</strong>`));
         },
         clicked() {
-          this.$emit('list-item-clicked', this.ipAddress);
+          this.$emit('list-item-clicked', { ipAddress: this.ipAddress, name: this.name });
         },
       },
     };

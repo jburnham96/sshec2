@@ -45,14 +45,14 @@ export default {
     terminal,
   },
   methods: {
-    itemClicked(ipAddress) {
+    itemClicked(selectedItem) {
       this.disableAllTabs();
   
       this.tabs.push({
         id: uuidv4(),
-        name: ipAddress,
+        name: selectedItem.name,
         type: 'terminal',
-        ipAddress,
+        ipAddress: selectedItem.ipAddress,
         active: true,
       })
     },

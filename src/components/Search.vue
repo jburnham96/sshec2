@@ -68,8 +68,8 @@ export default {
         resource.type.toLowerCase().includes(searchText)
         || resource.name.toLowerCase().includes(searchText));
     },
-    itemClicked(ipAddress) {
-      this.$emit('list-item-clicked', ipAddress);
+    itemClicked(selectedItem) {
+      this.$emit('list-item-clicked', selectedItem);
     },
     inputSelected() {
       this.filterSearch(this.search);
