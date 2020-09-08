@@ -1,7 +1,7 @@
 <template>
   <div class="xterm-container">
     <button v-on:click="exitClick()">Exit</button>
-    <link rel="Stylesheet" href="./node_modules/xterm/css/xterm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.css" integrity="sha512-iLYuqv+v/P4u9erpk+KM83Ioe/l7SEmr7wB6g+Kg1qmEit8EShDKnKtLHlv2QXUp7GGJhmqDI+1PhJYLTsfb8w==" crossorigin="anonymous" />
     <div id="xterm"></div>
   </div>
 </template>
@@ -15,8 +15,10 @@ export default {
     },
   },
   mounted() {
+    const electron = require('electron');
+
     const os = require('os');
-    const pty = require('node-pty');
+    const pty = electron.remote.require('node-pty');
     const { Terminal } = require('xterm');
 
     // Initialize node-pty with an appropriate shell
