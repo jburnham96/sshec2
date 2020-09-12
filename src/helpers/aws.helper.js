@@ -7,6 +7,7 @@ const AWS = electron.remote.require('aws-sdk');
 export default class AwsHelper {
   constructor(region) {
     this.instances = [];
+
     AWS.config.httpOptions.timeout = 5000;
     AWS.config.update({ region });
   }

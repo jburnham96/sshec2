@@ -31,9 +31,10 @@ export default {
     ]),
   },
   async mounted() {
+    // If selected region not available - 
     // Initialise with default region as the sdk needs a region
     // eslint-disable-next-line no-unused-vars
-    const aws = new AwsHelper(this.selectedRegion);
+    const aws = new AwsHelper(this.selectedRegion ? this.selectedRegion : 'eu-west-2');
     this.regions = await AwsHelper.getRegions();
   },
   methods: {
