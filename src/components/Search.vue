@@ -4,8 +4,9 @@
     <div key="1" v-if="!loading">
       <textInput
         v-model="search"
-        :placeholder="'Search...'"
+        :placeholder="selectedRegion ? 'Search...' : 'Please select a region to search'"
         :required="true"
+        :disabled="!selectedRegion"
       />
       <autoCompleteMenu
         v-on:list-item-clicked="itemClicked"

@@ -8,6 +8,7 @@
       :value="value"
       v-on:input="updateValue($event.target.value)"
       :required="required"
+      :disabled="disabled"
     />
     <label for="seach" class="form__label">{{placeholder}}</label>
   </div>
@@ -18,14 +19,18 @@ export default {
  props: {
       placeholder: {
         type: String,
-        required: true
+        required: true,
       },
       value: {
-        type: String
+        type: String,
       },
       required: {
         type: Boolean,
-        default: false
+        default: false,
+      },
+      disabled: {
+        type: Boolean,
+        default: false,
       }
     },
   methods: {
