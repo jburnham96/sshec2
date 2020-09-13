@@ -1,8 +1,8 @@
 /* eslint-disable no-await-in-loop */
 // const AWS = require('aws-sdk');
-const { v4: uuidv4 } = require('uuid');
-const electron = require('electron');
-const AWS = electron.remote.require('aws-sdk');
+const { v4: uuidv4 } = require("uuid");
+const electron = require("electron");
+const AWS = electron.remote.require("aws-sdk");
 
 export default class AwsHelper {
   constructor(region) {
@@ -17,8 +17,8 @@ export default class AwsHelper {
 
     const availableRegions = await ec2.describeRegions().promise();
 
-    return availableRegions ?
-      availableRegions.Regions.map(region => region.RegionName)
+    return availableRegions
+      ? availableRegions.Regions.map((region) => region.RegionName)
       : [];
   }
 
@@ -33,124 +33,144 @@ export default class AwsHelper {
   async populateLightsailInstances() {
     const lightsail = new AWS.Lightsail();
 
-    const lightsailInstances = await lightsail.getInstances().promise()
+    const lightsailInstances = await lightsail
+      .getInstances()
+      .promise()
       .catch((err) => {
         console.log(err);
       });
 
-      if (lightsailInstances) {
-      lightsailInstances.instances.forEach((instance) => {
-        this.instances.push({
-          id: uuidv4(),
-          type: 'Lightsail',
-          name: instance.name,
-          targetIp: instance.publicIpAddress,
-        });
+    if (!lightsailInstances) return;
+
+    lightsailInstances.instances.forEach((instance) => {
+      this.instances.push({
+        id: uuidv4(),
+        type: "Lightsail",
+        name: instance.name,
+        targetIp: instance.publicIpAddress,
       });
-    }
+    });
   }
 
   async populateEc2Instances() {
     const ec2 = new AWS.EC2();
 
-    const ec2Instances = await ec2.describeInstances().promise()
+    const ec2Instances = await ec2
+      .describeInstances()
+      .promise()
       .catch((err) => {
         console.log(err);
       });
 
-    if (ec2Instances) {
-      ec2Instances.Reservations.forEach((reservation) => {
-        reservation.Instances.forEach((instance) => {
-          const name = instance.Tags.filter(tag => tag.Key === 'Name')[0] ?
-            instance.Tags.filter(tag => tag.Key === 'Name')[0].Value :
-            instance.InstanceId;
+    if (!ec2Instances) return;
 
-          if (instance.State.Code === 16) {
-            this.instances.push({
-              id: uuidv4(),
-              type: 'EC2',
-              name,
-              targetIp: instance.PublicIpAddress,
-              instanceId: instance.InstanceId,
-            });
-          }
-        });
+    ec2Instances.Reservations.forEach((reservation) => {
+      reservation.Instances.forEach((instance) => {
+        const name = instance.Tags.filter((tag) => tag.Key === "Name")[0]
+          ? instance.Tags.filter((tag) => tag.Key === "Name")[0].Value
+          : instance.InstanceId;
+
+        if (instance.State.Code === 16) {
+          this.instances.push({
+            id: uuidv4(),
+            type: "EC2",
+            name,
+            targetIp: instance.PublicIpAddress,
+            instanceId: instance.InstanceId,
+          });
+        }
       });
-    }
+    });
   }
 
   async populateEcsTasks() {
     const ecs = new AWS.ECS();
 
-    const clusterArns = await ecs.listClusters().promise()
+    const clusterArns = await ecs
+      .listClusters()
+      .promise()
       .catch((err) => {
         console.log(err);
       });
 
-    if (clusterArns) {
-      const clustersDetails = await ecs.describeClusters({
+    if (!clusterArns) return;
+
+    const clustersDetails = await ecs
+      .describeClusters({
         clusters: clusterArns.clusterArns,
-      }).promise()
+      })
+      .promise()
+      .catch((err) => {
+        console.log(err);
+      });
+
+    if (!clustersDetails) return;
+    for (let i = 0; i < clustersDetails.clusters.length; i += 1) {
+      const curCluster = clustersDetails.clusters[i];
+
+      const containerInstanceArns = await ecs
+        .listContainerInstances({
+          cluster: curCluster.clusterArn,
+        })
+        .promise()
         .catch((err) => {
           console.log(err);
         });
 
-      if (clustersDetails) {
-        for (let i = 0; i < clustersDetails.clusters.length; i += 1) {
-          const curCluster = clustersDetails.clusters[i];
+      if (containerInstanceArns.containerInstanceArns.length <= 0) return;
 
-          const containerInstanceArns = await ecs.listContainerInstances({
-            cluster: curCluster.clusterArn,
-          }).promise()
-            .catch((err) => {
-              console.log(err);
-            });
+      const containerInstanceDescriptions = await ecs
+        .describeContainerInstances({
+          cluster: curCluster.clusterArn,
+          containerInstances: containerInstanceArns.containerInstanceArns,
+        })
+        .promise()
+        .catch((err) => {
+          console.log(err);
+        });
 
-          if (containerInstanceArns.containerInstanceArns.length > 0) {
-            const containerInstanceDescriptions = await ecs.describeContainerInstances({
-              cluster: curCluster.clusterArn,
-              containerInstances: containerInstanceArns.containerInstanceArns,
-            }).promise()
-              .catch((err) => {
-                console.log(err);
-              });
+      const containerEc2Mapping = containerInstanceDescriptions.containerInstances.map(
+        (instance) => ({
+          containerInstanceArn: instance.containerInstanceArn,
+          mappedInstance: this.instances.filter(
+            (x) => x.instanceId === instance.ec2InstanceId
+          )[0],
+        })
+      );
 
-            const containerEc2Mapping = containerInstanceDescriptions
-              .containerInstances.map(instance => ({
-                containerInstanceArn: instance.containerInstanceArn,
-                mappedInstance: this.instances
-                  .filter(x => x.instanceId === instance.ec2InstanceId)[0],
-              }));
+      const tasksArns = await ecs
+        .listTasks({
+          cluster: curCluster.clusterArn,
+        })
+        .promise()
+        .catch((err) => {
+          console.log(err);
+        });
 
-            const tasksArns = await ecs.listTasks({
-              cluster: curCluster.clusterArn,
-            }).promise().catch((err) => {
-              console.log(err);
-            });
+      const tasks = await ecs
+        .describeTasks({
+          tasks: tasksArns.taskArns,
+          cluster: curCluster.clusterArn,
+        })
+        .promise()
+        .catch((err) => {
+          console.log(err);
+        });
 
-            const tasks = await ecs.describeTasks({
-              tasks: tasksArns.taskArns,
-              cluster: curCluster.clusterArn,
-            }).promise().catch((err) => {
-              console.log(err);
-            });
+      if (tasks) {
+        for (let j = 0; j < tasks.tasks.length; j += 1) {
+          const curTask = tasks.tasks[j];
 
-            if (tasks) {
-              for (let j = 0; j < tasks.tasks.length; j += 1) {
-                const curTask = tasks.tasks[j];
-
-                this.instances.push({
-                  id: uuidv4(),
-                  type: 'ECS - Task',
-                  name: curTask.group.split(':').pop(),
-                  targetIp: containerEc2Mapping.filter(mapping =>
-                    mapping.containerInstanceArn === curTask.containerInstanceArn)[0]
-                    .mappedInstance.targetIp,
-                  clusterName: curCluster.clusterName,
-                });
-              }
-            }
-          }
+          this.instances.push({
+            id: uuidv4(),
+            type: "ECS - Task",
+            name: curTask.group.split(":").pop(),
+            targetIp: containerEc2Mapping.filter(
+              (mapping) =>
+                mapping.containerInstanceArn === curTask.containerInstanceArn
+            )[0].mappedInstance.targetIp,
+            clusterName: curCluster.clusterName,
+          });
         }
       }
     }
