@@ -25,7 +25,6 @@
         </div>
         <div v-if="tab.type === 'terminal'">
           <terminal
-            v-on:terminal-end="terminalEnded()"
             :startCommand="`ssh -i ${defaultFsKeyLocation} ${defaultUsername}@${tab.ipAddress}`"
           />
         </div>
@@ -66,9 +65,6 @@ export default {
         ipAddress: selectedItem.ipAddress,
         active: true,
       });
-    },
-    terminalEnded() {
-      this.terminalView = false;
     },
     selectTab(tab) {
       this.disableAllTabs();

@@ -63,10 +63,11 @@ export default {
     async populateAllResources() {
       this.loading = true;
 
-      // get region from the store in a drop down
-      const aws = new AwsHelper(this.selectedRegion);
+      if(this.selectedRegion) {
+        const aws = new AwsHelper(this.selectedRegion);
+        this.allResources = await aws.getAllResources();
+      }
 
-      this.allResources = await aws.getAllResources();
       this.loading = false;
     },
     filterResources(searchText) {
@@ -78,9 +79,6 @@ export default {
     },
     itemClicked(selectedItem) {
       this.$emit("list-item-clicked", selectedItem);
-    },
-    inputSelected() {
-      this.filterSearch(this.search);
     },
     filterSearch(searchText) {
       this.filteredResources = searchText
