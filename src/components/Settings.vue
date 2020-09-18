@@ -48,9 +48,6 @@ export default {
   },
   methods: {
     ...mapActions(["setDefaultFsKeyLocation", "setDefaultUsername"]),
-    keyChanged(event) {
-      console.log(`The key changed to ${event.target.files[0].path}`);
-    },
   },
 };
 </script>
