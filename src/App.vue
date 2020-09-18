@@ -10,25 +10,35 @@
 </template>
 
 <script>
-  import navMenu from './components/HamburgerMenu';
-  import regionSelector from './components/RegionSelector.vue';
-  import titleBar from './components/TitleBar';
+import navMenu from "./components/HamburgerMenu";
+import regionSelector from "./components/RegionSelector.vue";
+import titleBar from "./components/TitleBar";
 
-  export default {
-    name: 'sshec2',
-    components: {
-      navMenu,
-      regionSelector,
-      titleBar,
-    },
-  };
+export default {
+  name: "sshec2",
+  components: {
+    navMenu,
+    regionSelector,
+    titleBar,
+  },
+};
 </script>
 
 <style>
-  .top-controls {
-    flex-direction: row;
-    display: flex;
-    justify-content: space-between;
-    width: 80vw;
-  }
+body {
+  margin: 0;
+  padding: 0;
+
+  /* make it look decent enough */
+  background: #232323;
+  color: #cdcdcd;
+  font-family: "Avenir Next", "Avenir", sans-serif;
+}
+
+.top-controls {
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  width: 80vw;
+}
 </style>

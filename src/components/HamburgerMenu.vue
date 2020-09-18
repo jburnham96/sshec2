@@ -47,18 +47,6 @@
  * production code, beware of the browser
  * prefixes.
  */
-
-body
-{
-  margin: 0;
-  padding: 0;
-  
-  /* make it look decent enough */
-  background: #232323;
-  color: #cdcdcd;
-  font-family: "Avenir Next", "Avenir", sans-serif;
-}
-
 .nav-wrapper {
   height: 0;
   width: 0;
@@ -71,7 +59,7 @@ body
   top: 50px;
   left: 50px;
   
-  z-index: 1;
+  z-index: 12;
   
   -webkit-user-select: none;
   user-select: none;
