@@ -2,12 +2,28 @@
   <div class="wapper">
     <div class="form-container">
       <div class="form-item">
-        <textInput
-          @input="setDefaultFsKeyLocation"
-          :value="defaultFsKeyLocation"
-          :placeholder="'Default key location'"
-          :required="true"
-        />
+        <div class="key-location-container">
+          <textInput
+            :value="defaultFsKeyLocation"
+            :placeholder="'Default key location'"
+            :required="true"
+            :disabled="true"
+            :autoFilled="true"
+          />
+          <input
+            @input="
+              (event) => {
+                setDefaultFsKeyLocation(event.target.files[0].path);
+              }
+            "
+            type="file"
+            id="defaultKeyLocation"
+            class="hidden"
+          />
+          <label for="defaultKeyLocation" class="file-system-label"
+            >Change...</label
+          >
+        </div>
         <textInput
           @input="setDefaultUsername"
           :value="defaultUsername"
@@ -20,7 +36,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 import textInput from "./TextInput.vue";
 
 export default {
@@ -28,17 +44,14 @@ export default {
     textInput,
   },
   computed: {
-    ...mapGetters([
-      'defaultFsKeyLocation',
-      'defaultUsername'
-    ]),
+    ...mapGetters(["defaultFsKeyLocation", "defaultUsername"]),
   },
   methods: {
-    ...mapActions([
-      'setDefaultFsKeyLocation',
-      'setDefaultUsername'
-    ]),
-  }
+    ...mapActions(["setDefaultFsKeyLocation", "setDefaultUsername"]),
+    keyChanged(event) {
+      console.log(`The key changed to ${event.target.files[0].path}`);
+    },
+  },
 };
 </script>
 
@@ -53,7 +66,7 @@ export default {
 }
 
 .form-container {
-  min-height: 70vh;
+  min-height: 90vh;
   min-width: 90vw;
   justify-content: center;
   align-items: center;
@@ -65,5 +78,24 @@ export default {
   width: 50%;
   margin-left: auto;
   margin-right: auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.file-system-label {
+  margin-top: 37px;
+  margin-left: 16px;
+}
+
+.file-system-label:hover {
+  cursor: pointer;
+  color: #11998e;
+}
+
+.key-location-container {
+  display: flex;
+  flex-direction: row;
 }
 </style>

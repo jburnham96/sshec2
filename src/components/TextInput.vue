@@ -1,15 +1,15 @@
 <template>
   <div class="form__group">
     <input
-      type="input"
-      class="form__field"
+      v-on:input="updateValue($event.target.value)"
       :placeholder="placeholder"
       :value="value"
-      v-on:input="updateValue($event.target.value)"
       :required="required"
       :disabled="disabled"
+      :type="type"
+      class="form__field"
     />
-    <label for="seach" class="" :class="`form__label ${disabled ? 'disabled' : ''}`">{{
+    <label for="seach" :class="`form__label ${disabled ? 'disabled' : ''} ${autoFilled ? 'auto-filled-disabled' : ''}`">{{
       placeholder
     }}</label>
   </div>
@@ -33,6 +33,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    type: {
+      type: String,
+      default: 'input'
+    },
+    autoFilled: {
+      type: Boolean,
+      default: false,
+    }
   },
   methods: {
     updateValue(value) {
@@ -122,5 +130,10 @@ $gray: #9b9b9b;
   &:invalid {
     box-shadow: none;
   }
+}
+
+.auto-filled-disabled.form__label.disabled{
+  text-align: left;
+  color: inherit;
 }
 </style>
