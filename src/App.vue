@@ -5,7 +5,10 @@
       <navMenu />
       <regionSelector />
     </div>
-    <router-view></router-view>
+    <!--keep-alive so that ssh sessions aren't lost when visiting settings etc-->
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 
@@ -28,8 +31,6 @@ export default {
 body {
   margin: 0;
   padding: 0;
-
-  /* make it look decent enough */
   background: #232323;
   color: #cdcdcd;
   font-family: "Avenir Next", "Avenir", sans-serif;

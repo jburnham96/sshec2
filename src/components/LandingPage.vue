@@ -6,7 +6,7 @@
           v-for="tab in tabs"
           :key="tab.id"
           :class="`tab ${tab.active ? 'is-active' : ''}`"
-          @click="selectTab(tab)"
+          @click="selectTab(tab.id)"
         >
           <font-awesome-icon v-if="tab.type === 'terminal'" class="icon" icon="terminal" />
           <a :href="tab.href" class="tab-text">{{
@@ -25,7 +25,9 @@
         </div>
         <div v-if="tab.type === 'terminal'">
           <terminal
+            :terminalId="tab.id"
             :startCommand="`ssh -i ${defaultFsKeyLocation} ${defaultUsername}@${tab.ipAddress}`"
+            v-on:terminal-exit="removeTab"
           />
         </div>
       </div>
@@ -42,7 +44,8 @@ import { mapGetters } from 'vuex';
 export default {
   name: "landing-page",
   data: () => ({
-    tabs: [{ id: uuidv4(), name: "Search", type: "search", active: true }],
+    tabs: [],
+    searchTabId: '',
   }),
   components: {
     search,
@@ -53,6 +56,10 @@ export default {
       'defaultFsKeyLocation',
       'defaultUsername'
     ]),
+  },
+  created() {
+    this.searchTabId = uuidv4();
+    this.tabs.push({ id: this.searchTabId, name: "Search", type: "search", active: true });
   },
   methods: {
     itemClicked(selectedItem) {
@@ -66,15 +73,25 @@ export default {
         active: true,
       });
     },
-    selectTab(tab) {
+    selectTab(tabId) {
       this.disableAllTabs();
-      tab.active = true;
+
+      const tabIndex = this.getTabIndexFromId(tabId);
+      this.tabs[tabIndex].active = true;
     },
     disableAllTabs() {
       this.tabs.forEach((tab, index, arr) => {
         arr[index].active = false;
       });
     },
+    removeTab(tabId) {
+      this.tabs.splice(this.getTabIndexFromId(tabId), 1);
+
+      this.selectTab(this.searchTabId);
+    },
+    getTabIndexFromId(tabId) {
+      return this.tabs.findIndex((tab) => tab.id === tabId);
+    }
   },
 };
 </script>

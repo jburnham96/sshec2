@@ -6,18 +6,28 @@
       integrity="sha512-iLYuqv+v/P4u9erpk+KM83Ioe/l7SEmr7wB6g+Kg1qmEit8EShDKnKtLHlv2QXUp7GGJhmqDI+1PhJYLTsfb8w=="
       crossorigin="anonymous"
     />
-    <div :id="terminalId" class="xterm-terminal"></div>
+    <div :id="terminalIdFormed" class="xterm-terminal"></div>
   </div>
 </template>
 <script>
 import { FitAddon } from "xterm-addon-fit";
-const { v4: uuidv4 } = require("uuid");
 
 export default {
-  data: () => ({
-    terminalId: uuidv4(),
-  }),
-  props: ["startCommand"],
+  props: {
+    startCommand: {
+      type: String,
+      required: false,
+    },
+    terminalId: {
+      type: String,
+      required: true,
+    }
+  },
+  computed: {
+    terminalIdFormed() {
+      return `terminal-tab-${this.terminalId}`;
+    },
+  },
   mounted() {
     const electron = require("electron");
 
@@ -38,7 +48,7 @@ export default {
     const fitAddon = new FitAddon();
 
     xterm.loadAddon(fitAddon);
-    xterm.open(document.getElementById(this.terminalId));
+    xterm.open(document.getElementById(this.terminalIdFormed));
 
     fitAddon.fit();
 
@@ -54,6 +64,10 @@ export default {
     ptyProcess.on("data", (data) => {
       xterm.write(data);
     });
+
+    ptyProcess.on("exit", () => {
+      this.$emit("terminal-exit", this.terminalId);
+    })
 
     if (this.startCommand) {
       setTimeout(() => {
