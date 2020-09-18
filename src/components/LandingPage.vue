@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="wrapper">
+    <div class="wrapper">
       <div class="tabs-list">
         <div
           v-for="tab in tabs"
@@ -92,7 +92,7 @@ body {
   font-family: "Source Sans Pro", sans-serif;
 }
 
-#wrapper {
+.wrapper {
   font-family: "Poppins", sans-serif;
   display: flex;
   flex-direction: column;

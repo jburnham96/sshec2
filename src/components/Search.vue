@@ -1,6 +1,6 @@
 <!--https://codepen.io/lucasyem/details/ZEEYKdj-->
 <template>
-  <div class="form__group field">
+  <div class="search-dropdown-container">
     <div key="1" v-if="!loading">
       <textInput
         v-model="search"
@@ -180,5 +180,9 @@ export default {
   width: 0px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.search-dropdown-container {
+  position: relative;
 }
 </style>

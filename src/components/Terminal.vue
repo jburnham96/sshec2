@@ -42,6 +42,7 @@ export default {
 
     fitAddon.fit();
 
+    //TODO: Call this .fit() when the tab is selected
     window.addEventListener("resize", () => {
       fitAddon.fit();
     });
