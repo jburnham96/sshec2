@@ -7,6 +7,7 @@
           :key="tab.id"
           :class="`tab ${tab.active ? 'is-active' : ''}`"
           @click="selectTab(tab.id)"
+          @click.middle="removeTab(tab.id)"
         >
           <font-awesome-icon v-if="tab.type === 'terminal'" class="icon" icon="terminal" />
           <a :href="tab.href" class="tab-text">{{
@@ -46,6 +47,7 @@ export default {
   data: () => ({
     tabs: [],
     searchTabId: '',
+    searchDeleteCount: 0,
   }),
   components: {
     search,
@@ -85,9 +87,19 @@ export default {
       });
     },
     removeTab(tabId) {
-      this.tabs.splice(this.getTabIndexFromId(tabId), 1);
+      if(tabId === this.searchTabId) {
+        this.searchDeleteCount += 1;
 
-      this.selectTab(this.searchTabId);
+        if(this.searchDeleteCount === 20) {
+          this.tabs[this.getTabIndexFromId(this.searchTabId)]
+            .name += ' 😢';
+        }
+
+        return;
+      }
+      
+      this.tabs.splice(this.getTabIndexFromId(tabId), 1);
+      this.selectTab(this.searchTabId);      
     },
     getTabIndexFromId(tabId) {
       return this.tabs.findIndex((tab) => tab.id === tabId);
