@@ -1,5 +1,4 @@
 /* eslint-disable no-await-in-loop */
-// const AWS = require('aws-sdk');
 const { v4: uuidv4 } = require("uuid");
 const electron = require("electron");
 const AWS = electron.remote.require("aws-sdk");
