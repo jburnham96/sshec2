@@ -42,12 +42,14 @@ export default class AwsHelper {
     if (!lightsailInstances) return;
 
     lightsailInstances.instances.forEach((instance) => {
-      this.instances.push({
-        id: uuidv4(),
-        type: "Lightsail",
-        name: instance.name,
-        targetIp: instance.publicIpAddress,
-      });
+      if(instance.state.code === 16) {
+        this.instances.push({
+          id: uuidv4(),
+          type: "Lightsail",
+          name: instance.name,
+          targetIp: instance.publicIpAddress,
+        });
+      }
     });
   }
 
