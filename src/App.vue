@@ -3,7 +3,7 @@
     <titleBar />
     <div class="top-controls">
       <navMenu />
-      <regionSelector />
+      <regionSelector v-if="credentialsFound" />
     </div>
     <!--keep-alive so that ssh sessions aren't lost when visiting settings etc-->
     <keep-alive>
@@ -16,6 +16,7 @@
 import navMenu from "./components/HamburgerMenu";
 import regionSelector from "./components/RegionSelector.vue";
 import titleBar from "./components/TitleBar";
+import { mapGetters } from "vuex";
 
 export default {
   name: "sshec2",
@@ -24,6 +25,9 @@ export default {
     regionSelector,
     titleBar,
   },
+  computed: {
+    ...mapGetters(["credentialsFound"]),
+  }
 };
 </script>
 

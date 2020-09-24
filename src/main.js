@@ -18,7 +18,7 @@ process.on('unhandledRejection', (error) => {
 });
 
 new Vue({
-  render: h => h(App),
   store,
   router,
+  render: h => h(App),
 }).$mount('#app');

@@ -2,6 +2,7 @@ const state = {
     region: '',
     defaultFsKeyLocation: '',
     defaultUsername: '',
+    credentialsFound: false,
   };
   
   const mutations = {
@@ -14,6 +15,9 @@ const state = {
     SET_DEFAULT_USERNAME(state, payload) {
       state.defaultUsername = payload;
     },
+    SET_CREDENTIALS_FOUND(state, payload) {
+      state.credentialsFound = payload;
+    }
   };
   
   const actions = {
@@ -25,6 +29,9 @@ const state = {
     },
     setDefaultUsername({ commit }, payload) {
       commit('SET_DEFAULT_USERNAME', payload);
+    },
+    setCredentialsFound({ commit }, payload) {
+      commit('SET_CREDENTIALS_FOUND', payload);
     }
   };
   
@@ -32,6 +39,7 @@ const state = {
     selectedRegion: state => state.region,
     defaultFsKeyLocation: state => state.defaultFsKeyLocation,
     defaultUsername: state => state.defaultUsername,
+    credentialsFound: state => state.credentialsFound,
   };
   
   export default {
