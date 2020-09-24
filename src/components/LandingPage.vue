@@ -9,10 +9,19 @@
           @click="selectTab(tab.id)"
           @click.middle="removeTab(tab.id)"
         >
-          <font-awesome-icon v-if="tab.type === 'terminal'" class="icon" icon="terminal" />
-          <a :href="tab.href" class="tab-text">{{
-            tab.name
-          }}</a>
+          <font-awesome-icon
+            v-if="tab.type === 'terminal'"
+            class="icon"
+            icon="terminal"
+          />
+          <a :href="tab.href" class="tab-text"
+            >{{ tab.name }}
+            <font-awesome-icon
+              v-if="tab.type === 'terminal' && tab.active"
+              class="icon icon-close"
+              icon="times-circle"
+              @click.stop="removeTab(tab.id)"
+          /></a>
         </div>
       </div>
       <div
@@ -27,7 +36,9 @@
         <div v-if="tab.type === 'terminal'">
           <terminal
             :terminalId="tab.id"
-            :startCommand="`ssh -i ${defaultFsKeyLocation} ${defaultUsername}@${tab.ipAddress}`"
+            :startCommand="
+              `ssh -i ${defaultFsKeyLocation} ${defaultUsername}@${tab.ipAddress}`
+            "
             v-on:terminal-exit="removeTab"
           />
         </div>
@@ -40,13 +51,13 @@
 const { v4: uuidv4 } = require("uuid");
 import search from "./Search.vue";
 import terminal from "./Terminal.vue";
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
   name: "landing-page",
   data: () => ({
     tabs: [],
-    searchTabId: '',
+    searchTabId: "",
     searchDeleteCount: 0,
   }),
   components: {
@@ -54,14 +65,16 @@ export default {
     terminal,
   },
   computed: {
-    ...mapGetters([
-      'defaultFsKeyLocation',
-      'defaultUsername'
-    ]),
+    ...mapGetters(["defaultFsKeyLocation", "defaultUsername"]),
   },
   created() {
     this.searchTabId = uuidv4();
-    this.tabs.push({ id: this.searchTabId, name: "Search", type: "search", active: true });
+    this.tabs.push({
+      id: this.searchTabId,
+      name: "Search",
+      type: "search",
+      active: true,
+    });
   },
   methods: {
     itemClicked(selectedItem) {
@@ -87,23 +100,22 @@ export default {
       });
     },
     removeTab(tabId) {
-      if(tabId === this.searchTabId) {
+      if (tabId === this.searchTabId) {
         this.searchDeleteCount += 1;
 
-        if(this.searchDeleteCount === 20) {
-          this.tabs[this.getTabIndexFromId(this.searchTabId)]
-            .name += ' 😢';
+        if (this.searchDeleteCount === 20) {
+          this.tabs[this.getTabIndexFromId(this.searchTabId)].name += " 😢";
         }
 
         return;
       }
-      
+
       this.tabs.splice(this.getTabIndexFromId(tabId), 1);
-      this.selectTab(this.searchTabId);      
+      this.selectTab(this.searchTabId);
     },
     getTabIndexFromId(tabId) {
       return this.tabs.findIndex((tab) => tab.id === tabId);
-    }
+    },
   },
 };
 </script>
@@ -157,25 +169,22 @@ body {
   white-space: nowrap;
 }
 
-.tabs-list::-webkit-scrollbar-track
-{
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    border-radius: 10px;
-    background-color: #232323;
+.tabs-list::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #232323;
 }
 
-.tabs-list::-webkit-scrollbar
-{
-    width: 7px;
-    height: 3px;
-    background-color: #232323;
+.tabs-list::-webkit-scrollbar {
+  width: 7px;
+  height: 3px;
+  background-color: #232323;
 }
 
-.tabs-list::-webkit-scrollbar-thumb
-{
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-    background-color: rgb(17, 17, 17)
+.tabs-list::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: rgb(17, 17, 17);
 }
 
 .tab {
@@ -206,5 +215,16 @@ body {
 .icon {
   margin-right: 4px;
   font-size: 14px;
+}
+
+.icon-close {
+  margin-left: 4px;
+  margin-bottom: 1px;
+  color: #7c7c7c;
+  transition: 0.5s;
+}
+
+.icon-close:hover {
+  color: #dbdbdb;
 }
 </style>

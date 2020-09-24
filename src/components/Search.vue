@@ -1,7 +1,7 @@
 <!--https://codepen.io/lucasyem/details/ZEEYKdj-->
 <template>
   <div class="search-dropdown-container">
-    <div key="1" v-if="!loading">
+    <div v-if="!loading">
       <textInput
         v-model="search"
         :placeholder="selectedRegion ? 'Search...' : 'Please select a region to search'"
@@ -14,7 +14,7 @@
         :search="search"
       />
     </div>
-    <div key="2" v-else class="loader-container">
+    <div v-else class="loader-container">
       <div class="sk-chase">
         <div class="sk-chase-dot"></div>
         <div class="sk-chase-dot"></div>
