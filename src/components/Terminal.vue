@@ -69,6 +69,17 @@ export default {
       this.$emit("terminal-exit", this.terminalId);
     })
 
+    /*
+      kill the terminal session to avoid dangling connections.
+
+      extracting the ptyProcess into a component wide variable that can be accessed by
+      the destroyed() method seems to cause a lot of problems within the node-pty
+      library. Hooking into the event like so stops node-pty getting confused.
+    */
+    this.$once("hook:beforeDestroy", () => {
+      ptyProcess.kill();
+    })
+
     if (this.startCommand) {
       setTimeout(() => {
         ptyProcess.write(`${this.startCommand}\r`);
