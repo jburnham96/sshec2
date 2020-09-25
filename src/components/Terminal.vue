@@ -78,6 +78,7 @@ export default {
     */
     this.$once("hook:beforeDestroy", () => {
       ptyProcess.kill();
+      xterm.dispose();
     });
 
     if (this.startCommand) {
