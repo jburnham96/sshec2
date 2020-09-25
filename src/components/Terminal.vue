@@ -67,7 +67,7 @@ export default {
 
     ptyProcess.on("exit", () => {
       this.$emit("terminal-exit", this.terminalId);
-    })
+    });
 
     /*
       kill the terminal session to avoid dangling connections.
