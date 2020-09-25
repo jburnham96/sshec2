@@ -115,7 +115,7 @@ export default {
       return this.tabs.findIndex((tab) => tab.id === tabId);
     },
     getTerminalStartCommand(ipAddress) {
-      return `ssh -i ${this.defaultFsKeyLocation}${this.strictHostKeyChecking ? '' : ' -o StrictHostKeyChecking=no'} ${this.defaultUsername}@${ipAddress}`
+      return `ssh -i ${this.defaultFsKeyLocation}${this.strictHostKeyChecking ? '' : ' -o StrictHostKeyChecking=no'} ${this.defaultUsername ? `${this.defaultUsername}@` : ''}${ipAddress}`
     },
   },
 };
