@@ -78,11 +78,7 @@ export default {
     */
     this.$once("hook:beforeDestroy", () => {
       ptyProcess.kill();
-    })
-
-    this.$once("hook:destroy", () => {
-      ptyProcess.kill();
-    })
+    });
 
     if (this.startCommand) {
       setTimeout(() => {
