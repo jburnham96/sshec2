@@ -3,6 +3,8 @@ const state = {
     defaultFsKeyLocation: '',
     defaultUsername: '',
     credentialsFound: false,
+    strictHostKeyChecking: true,
+    hostNameOverIp: false,
   };
   
   const mutations = {
@@ -17,6 +19,12 @@ const state = {
     },
     SET_CREDENTIALS_FOUND(state, payload) {
       state.credentialsFound = payload;
+    },
+    SET_STRICT_HOST_KEY_CHECKING(state, payload) {
+      state.strictHostKeyChecking = payload;
+    },
+    SET_HOST_NAME_OVER_IP(state, payload) {
+      state.hostNameOverIp = payload;
     }
   };
   
@@ -32,7 +40,13 @@ const state = {
     },
     setCredentialsFound({ commit }, payload) {
       commit('SET_CREDENTIALS_FOUND', payload);
-    }
+    },
+    setStrictHostKeyChecking({ commit }, payload) {
+      commit('SET_STRICT_HOST_KEY_CHECKING', payload);
+    },
+    setHostNameOverIp({ commit }, payload) {
+      commit('SET_HOST_NAME_OVER_IP', payload);
+    },
   };
   
   const getters = {
@@ -40,6 +54,8 @@ const state = {
     defaultFsKeyLocation: state => state.defaultFsKeyLocation,
     defaultUsername: state => state.defaultUsername,
     credentialsFound: state => state.credentialsFound,
+    strictHostKeyChecking: state => state.strictHostKeyChecking,
+    hostNameOverIp: state => state.hostNameOverIp,
   };
   
   export default {

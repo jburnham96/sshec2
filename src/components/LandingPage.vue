@@ -17,7 +17,7 @@
           <a :href="tab.href" class="tab-text"
             >{{ tab.name }}
             <font-awesome-icon
-              v-if="tab.type === 'terminal' && tab.active"
+              v-if="tab.type === 'terminal'"
               class="icon icon-close"
               icon="times-circle"
               @click.stop="removeTab(tab.id)"
@@ -36,9 +36,7 @@
         <div v-if="tab.type === 'terminal'">
           <terminal
             :terminalId="tab.id"
-            :startCommand="
-              `ssh -i ${defaultFsKeyLocation} ${defaultUsername}@${tab.ipAddress}`
-            "
+            :startCommand="getTerminalStartCommand(tab.ipAddress)"
             v-on:terminal-exit="removeTab"
           />
         </div>
@@ -65,7 +63,7 @@ export default {
     terminal,
   },
   computed: {
-    ...mapGetters(["defaultFsKeyLocation", "defaultUsername"]),
+    ...mapGetters(["defaultFsKeyLocation", "defaultUsername", "strictHostKeyChecking"]),
   },
   created() {
     this.searchTabId = uuidv4();
@@ -115,6 +113,9 @@ export default {
     },
     getTabIndexFromId(tabId) {
       return this.tabs.findIndex((tab) => tab.id === tabId);
+    },
+    getTerminalStartCommand(ipAddress) {
+      return `ssh -i ${this.defaultFsKeyLocation}${this.strictHostKeyChecking ? '' : ' -o StrictHostKeyChecking=no'} ${this.defaultUsername}@${ipAddress}`
     },
   },
 };
@@ -190,6 +191,7 @@ body {
 .tab {
   color: rgb(77, 77, 77);
   margin-left: 25px;
+  transition: 0.5s;
 }
 
 .tab:hover {
@@ -220,11 +222,11 @@ body {
 .icon-close {
   margin-left: 4px;
   margin-bottom: 1px;
-  color: #7c7c7c;
-  transition: 0.5s;
+  color: inherit;
 }
 
 .icon-close:hover {
-  color: #dbdbdb;
+  color: #949494;
+  transition: 0.5s;
 }
 </style>

@@ -159,6 +159,7 @@ export default class AwsHelper {
         });
 
       if (tasks) {
+        //TODO: Filter out dead tasks
         for (let j = 0; j < tasks.tasks.length; j += 1) {
           const curTask = tasks.tasks[j];
 

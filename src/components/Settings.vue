@@ -30,6 +30,24 @@
           :placeholder="'Default Username'"
           :required="true"
         />
+        <div class="toggle-container">
+          <p class="toggle-label">Use Strict Host Key Checking</p>
+          <vueToggles
+            class="toggle"
+            :checkedBg="'#11998e'"
+            @click="setStrictHostKeyChecking(!strictHostKeyChecking)"
+            :value="strictHostKeyChecking"
+          />
+        </div>
+        <div class="toggle-container">
+          <p class="toggle-label">Use Host Name Instead of IP Address</p>
+          <vueToggles
+            class="toggle"
+            :checkedBg="'#11998e'"
+            @click="setHostNameOverIp(!hostNameOverIp)"
+            :value="hostNameOverIp"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -38,16 +56,31 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import textInput from "./TextInput.vue";
+import vueToggles from "vue-toggles";
 
 export default {
+  data: () => ({
+    value: false,
+  }),
   components: {
     textInput,
+    vueToggles,
   },
   computed: {
-    ...mapGetters(["defaultFsKeyLocation", "defaultUsername"]),
+    ...mapGetters([
+      "defaultFsKeyLocation",
+      "defaultUsername",
+      "strictHostKeyChecking",
+      "hostNameOverIp",
+    ]),
   },
   methods: {
-    ...mapActions(["setDefaultFsKeyLocation", "setDefaultUsername"]),
+    ...mapActions([
+      "setDefaultFsKeyLocation",
+      "setDefaultUsername",
+      "setStrictHostKeyChecking",
+      "setHostNameOverIp",
+    ]),
   },
 };
 </script>
@@ -72,7 +105,7 @@ export default {
 }
 
 .form-item {
-  width: 50%;
+  width: 40%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -94,5 +127,19 @@ export default {
 .key-location-container {
   display: flex;
   flex-direction: row;
+}
+
+.toggle-container {
+  display: flex;
+  margin-top: 37px;
+}
+
+.toggle-label {
+  margin-right: 20px;
+  flex: auto;
+}
+
+.toggle:focus {
+  outline: none;
 }
 </style>
