@@ -33,7 +33,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  const credFilePath = `${app.getPath("home")}\\.aws\\credentials`
+  const credFilePath = `${app.getPath("home")}/.aws/credentials`
   const credsFound = fs.existsSync(credFilePath);
 
   store.dispatch('setCredentialsFound', credsFound);
