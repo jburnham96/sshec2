@@ -4,7 +4,6 @@ const state = {
     defaultUsername: '',
     credentialsFound: false,
     strictHostKeyChecking: true,
-    hostNameOverIp: false,
   };
   
   const mutations = {
@@ -23,9 +22,6 @@ const state = {
     SET_STRICT_HOST_KEY_CHECKING(state, payload) {
       state.strictHostKeyChecking = payload;
     },
-    SET_HOST_NAME_OVER_IP(state, payload) {
-      state.hostNameOverIp = payload;
-    }
   };
   
   const actions = {
@@ -44,9 +40,6 @@ const state = {
     setStrictHostKeyChecking({ commit }, payload) {
       commit('SET_STRICT_HOST_KEY_CHECKING', payload);
     },
-    setHostNameOverIp({ commit }, payload) {
-      commit('SET_HOST_NAME_OVER_IP', payload);
-    },
   };
   
   const getters = {
@@ -55,7 +48,6 @@ const state = {
     defaultUsername: state => state.defaultUsername,
     credentialsFound: state => state.credentialsFound,
     strictHostKeyChecking: state => state.strictHostKeyChecking,
-    hostNameOverIp: state => state.hostNameOverIp,
   };
   
   export default {

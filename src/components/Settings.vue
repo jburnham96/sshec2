@@ -39,15 +39,6 @@
             :value="strictHostKeyChecking"
           />
         </div>
-        <div class="toggle-container">
-          <p class="toggle-label">Use Host Name Instead of IP Address</p>
-          <vueToggles
-            class="toggle"
-            :checkedBg="'#11998e'"
-            @click="setHostNameOverIp(!hostNameOverIp)"
-            :value="hostNameOverIp"
-          />
-        </div>
       </div>
     </div>
   </div>
@@ -71,7 +62,6 @@ export default {
       "defaultFsKeyLocation",
       "defaultUsername",
       "strictHostKeyChecking",
-      "hostNameOverIp",
     ]),
   },
   methods: {
@@ -79,7 +69,6 @@ export default {
       "setDefaultFsKeyLocation",
       "setDefaultUsername",
       "setStrictHostKeyChecking",
-      "setHostNameOverIp",
     ]),
   },
 };
