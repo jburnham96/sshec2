@@ -4,6 +4,7 @@
     <div v-if="!loading">
       <textInput
         v-model="search"
+        @keyup.native.enter="enterPressed"
         :placeholder="selectedRegion ? 'Search...' : 'Please select a region to search'"
         :required="true"
         :disabled="!selectedRegion"
@@ -85,6 +86,16 @@ export default {
         ? this.filterResources(searchText.toLowerCase())
         : [];
     },
+    enterPressed() {
+      if(this.filteredResources.length > 0) {
+        const item = this.filteredResources[0];
+
+        this.itemClicked({
+          ipAddress: item.targetIp,
+          name: item.name,
+        });
+      }
+    }
   },
 };
 </script>

@@ -76,15 +76,17 @@ export default {
   },
   methods: {
     itemClicked(selectedItem) {
-      this.disableAllTabs();
+      if(selectedItem.ipAddress) {
+        this.disableAllTabs();
 
-      this.tabs.push({
-        id: uuidv4(),
-        name: selectedItem.name,
-        type: "terminal",
-        ipAddress: selectedItem.ipAddress,
-        active: true,
-      });
+        this.tabs.push({
+          id: uuidv4(),
+          name: selectedItem.name,
+          type: "terminal",
+          ipAddress: selectedItem.ipAddress,
+          active: true,
+        });
+      }
     },
     selectTab(tabId) {
       this.disableAllTabs();
