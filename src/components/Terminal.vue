@@ -11,6 +11,7 @@
 </template>
 <script>
 import { FitAddon } from "xterm-addon-fit";
+import { mapGetters } from "vuex";
 
 export default {
   props: {
@@ -27,6 +28,7 @@ export default {
     terminalIdFormed() {
       return `terminal-tab-${this.terminalId}`;
     },
+    ...mapGetters(["terminalOverride"]),
   },
   mounted() {
     const electron = require("electron");
@@ -36,7 +38,14 @@ export default {
     const { Terminal } = require("xterm");
 
     // Initialize node-pty with an appropriate shell
-    const shell = os.platform() === "win32" ? "powershell.exe" : "zsh";
+    let shell;
+
+    if(!this.terminalOverride) {
+      shell = os.platform() === "win32" ? "powershell.exe" : "bash";
+    } else {
+      shell = this.terminalOverride;
+    }
+
     const ptyProcess = pty.spawn(shell, [], {
       cols: 120,
       rows: 500,

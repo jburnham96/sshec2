@@ -30,6 +30,12 @@
           :placeholder="'Default Username'"
           :required="true"
         />
+        <textInput
+          @input="updateTerminalOverride"
+          :value="terminalOverride"
+          :placeholder="'Terminal Override'"
+          :required="true"
+        />
         <div class="toggle-container">
           <p class="toggle-label">Use Strict Host Key Checking</p>
           <vueToggles
@@ -63,6 +69,7 @@ export default {
       "defaultFsKeyLocation",
       "defaultUsername",
       "strictHostKeyChecking",
+      "terminalOverride",
     ]),
   },
   methods: {
@@ -70,10 +77,14 @@ export default {
       "setDefaultFsKeyLocation",
       "setDefaultUsername",
       "setStrictHostKeyChecking",
+      "setTerminalOverride",
     ]),
     updateDefaultUsername: debounce(function(username) {
       this.setDefaultUsername(username);
-    }, 500)
+    }, 500),
+    updateTerminalOverride: debounce(function(terminal) {
+      this.setTerminalOverride(terminal);
+    }, 500),
   },
 };
 </script>

@@ -2,6 +2,7 @@ const state = {
     region: '',
     defaultFsKeyLocation: '',
     defaultUsername: '',
+    terminalOverride: '',
     credentialsFound: false,
     strictHostKeyChecking: true,
   };
@@ -22,6 +23,9 @@ const state = {
     SET_STRICT_HOST_KEY_CHECKING(state, payload) {
       state.strictHostKeyChecking = payload;
     },
+    SET_TERMINAL_OVERRIDE(state, payload) {
+      state.terminalOverride = payload;
+    }
   };
   
   const actions = {
@@ -40,6 +44,9 @@ const state = {
     setStrictHostKeyChecking({ commit }, payload) {
       commit('SET_STRICT_HOST_KEY_CHECKING', payload);
     },
+    setTerminalOverride({commit}, payload) {
+      commit('SET_TERMINAL_OVERRIDE', payload);
+    }
   };
   
   const getters = {
@@ -48,6 +55,7 @@ const state = {
     defaultUsername: state => state.defaultUsername,
     credentialsFound: state => state.credentialsFound,
     strictHostKeyChecking: state => state.strictHostKeyChecking,
+    terminalOverride: state => state.terminalOverride,
   };
   
   export default {
