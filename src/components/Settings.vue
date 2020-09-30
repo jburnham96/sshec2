@@ -25,7 +25,7 @@
           >
         </div>
         <textInput
-          @input="setDefaultUsername"
+          @input="updateDefaultUsername"
           :value="defaultUsername"
           :placeholder="'Default Username'"
           :required="true"
@@ -48,6 +48,7 @@
 import { mapActions, mapGetters } from "vuex";
 import textInput from "./TextInput.vue";
 import vueToggles from "vue-toggles";
+const debounce = require('debounce');
 
 export default {
   data: () => ({
@@ -70,6 +71,9 @@ export default {
       "setDefaultUsername",
       "setStrictHostKeyChecking",
     ]),
+    updateDefaultUsername: debounce(function(username) {
+      this.setDefaultUsername(username);
+    }, 500)
   },
 };
 </script>
